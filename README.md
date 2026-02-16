@@ -2,7 +2,7 @@
 
 A modern, responsive Sudoku web application built with vanilla JavaScript, HTML, and CSS.
 
-![Sudoku Screenshot](https://via.placeholder.com/800x600?text=Sudoku+App+Preview)
+![Sudoku Screenshot](./sudoku.png)
 
 ## Features
 
