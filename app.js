@@ -24,6 +24,10 @@ const SudokuApp = {
     this.cacheElements();
     this.createGrid();
     this.attachEventListeners();
+
+    // Initialize I18n
+    I18n.init();
+
     this.startNewGame();
   },
 
@@ -42,8 +46,9 @@ const SudokuApp = {
       hintExplanation: document.getElementById('hintExplanation'),
       closeHintBtn: document.getElementById('closeHintBtn'),
       victoryMessage: document.getElementById('victoryMessage'),
-      finalTime: document.getElementById('finalTime'),
-      newGameFromVictoryBtn: document.getElementById('newGameFromVictoryBtn')
+      victoryTimeText: document.getElementById('victoryTimeText'),
+      newGameFromVictoryBtn: document.getElementById('newGameFromVictoryBtn'),
+      languageSelector: document.getElementById('languageSelector')
     };
   },
 
@@ -88,6 +93,12 @@ const SudokuApp = {
     this.elements.newGameFromVictoryBtn.addEventListener('click', () => {
       this.hideVictory();
       this.startNewGame();
+    });
+
+    // Language selector
+    this.elements.languageSelector.addEventListener('change', (e) => {
+      I18n.setLocale(e.target.value);
+      this.updateDynamicText();
     });
 
     // Digit button events
@@ -385,15 +396,15 @@ const SudokuApp = {
     const hint = Sudoku.getHint(this.currentGrid, this.solution);
 
     if (!hint) {
-      this.elements.hintTechnique.textContent = 'No Hints Available';
-      this.elements.hintExplanation.textContent = 'The puzzle is complete or already solved!';
+      this.elements.hintTechnique.textContent = I18n.t('app.hints.no_hints_title');
+      this.elements.hintExplanation.textContent = I18n.t('app.hints.no_hints_msg');
       this.elements.hintMessage.classList.remove('hidden');
       return;
     }
 
     // Display hint message
-    this.elements.hintTechnique.textContent = hint.technique;
-    this.elements.hintExplanation.textContent = hint.explanation;
+    this.elements.hintTechnique.textContent = I18n.t(hint.techniqueKey);
+    this.elements.hintExplanation.textContent = I18n.t(hint.explanationKey, hint.params);
     this.elements.hintMessage.classList.remove('hidden');
 
     // Highlight the cell
@@ -447,7 +458,7 @@ const SudokuApp = {
     this.timerStarted = false;
     this.timerPaused = false;
     this.updateTimerDisplay();
-    this.elements.pauseBtn.innerHTML = '<span class="btn-icon">⏸</span>Pause';
+    this.elements.pauseBtn.innerHTML = `<span class="btn-icon">⏸</span><span data-i18n="app.pause">${I18n.t('app.pause')}</span>`;
   },
 
   stopTimer() {
@@ -465,11 +476,11 @@ const SudokuApp = {
     this.timerPaused = !this.timerPaused;
 
     if (this.timerPaused) {
-      this.elements.pauseBtn.innerHTML = '<span class="btn-icon">▶</span>Resume';
+      this.elements.pauseBtn.innerHTML = `<span class="btn-icon">▶</span><span data-i18n="app.resume">${I18n.t('app.resume')}</span>`;
       this.elements.grid.style.opacity = '0.5';
       this.elements.grid.style.pointerEvents = 'none';
     } else {
-      this.elements.pauseBtn.innerHTML = '<span class="btn-icon">⏸</span>Pause';
+      this.elements.pauseBtn.innerHTML = `<span class="btn-icon">⏸</span><span data-i18n="app.pause">${I18n.t('app.pause')}</span>`;
       this.elements.grid.style.opacity = '1';
       this.elements.grid.style.pointerEvents = 'auto';
     }
@@ -493,13 +504,25 @@ const SudokuApp = {
   // Handle victory
   handleVictory() {
     this.stopTimer();
-    this.elements.finalTime.textContent = this.elements.timer.textContent;
+    const time = this.elements.timer.textContent;
+    this.elements.victoryTimeText.textContent = I18n.t('app.victory.time', { time });
     this.elements.victoryMessage.classList.remove('hidden');
   },
 
   // Hide victory message
   hideVictory() {
     this.elements.victoryMessage.classList.add('hidden');
+  },
+
+  // Update dynamic text that isn't handled by data-i18n automatically
+  // (e.g., button states that change)
+  updateDynamicText() {
+    // Re-render pause button state
+    if (this.timerPaused) {
+      this.elements.pauseBtn.innerHTML = `<span class="btn-icon">▶</span><span data-i18n="app.resume">${I18n.t('app.resume')}</span>`;
+    } else {
+      this.elements.pauseBtn.innerHTML = `<span class="btn-icon">⏸</span><span data-i18n="app.pause">${I18n.t('app.pause')}</span>`;
+    }
   }
 };
 

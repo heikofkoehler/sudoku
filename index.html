@@ -1,31 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sudoku Game</title>
   <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
   <div class="container">
     <header>
-      <h1>Sudoku</h1>
+      <h1 data-i18n="app.title">Sudoku</h1>
+      <div class="header-controls">
+        <select id="languageSelector" class="language-selector">
+          <option value="en">English</option>
+          <option value="de">Deutsch</option>
+        </select>
+      </div>
       <div class="timer-container">
-        <span class="timer-label">Time:</span>
+        <span class="timer-label" data-i18n="app.time_label">Time:</span>
         <span id="timer" class="timer">00:00</span>
       </div>
     </header>
 
     <div class="controls-top">
       <div class="difficulty-selector">
-        <label for="difficulty">Difficulty:</label>
+        <label for="difficulty" data-i18n="app.difficulty_label">Difficulty:</label>
         <select id="difficulty">
-          <option value="easy">Easy</option>
-          <option value="medium" selected>Medium</option>
-          <option value="hard">Hard</option>
+          <option value="easy" data-i18n="app.difficulty.easy">Easy</option>
+          <option value="medium" selected data-i18n="app.difficulty.medium">Medium</option>
+          <option value="hard" data-i18n="app.difficulty.hard">Hard</option>
         </select>
       </div>
-      <button id="newGameBtn" class="btn btn-primary">New Game</button>
+      <button id="newGameBtn" class="btn btn-primary" data-i18n="app.new_game">New Game</button>
     </div>
 
     <div class="game-container">
@@ -36,15 +44,15 @@
       <div class="controls-side">
         <button id="hintBtn" class="btn btn-secondary">
           <span class="btn-icon">💡</span>
-          Get Hint
+          <span data-i18n="app.hint">Get Hint</span>
         </button>
         <button id="undoBtn" class="btn btn-secondary">
           <span class="btn-icon">↶</span>
-          Undo
+          <span data-i18n="app.undo">Undo</span>
         </button>
         <button id="pauseBtn" class="btn btn-secondary">
           <span class="btn-icon">⏸</span>
-          Pause
+          <span data-i18n="app.pause">Pause</span>
         </button>
       </div>
     </div>
@@ -59,7 +67,7 @@
       <button class="digit-btn" data-digit="7">7</button>
       <button class="digit-btn" data-digit="8">8</button>
       <button class="digit-btn" data-digit="9">9</button>
-      <button class="digit-btn digit-btn-clear" data-digit="0">Clear</button>
+      <button class="digit-btn digit-btn-clear" data-digit="0" data-i18n="app.clear">Clear</button>
     </div>
 
     <div id="hintMessage" class="hint-message hidden">
@@ -72,26 +80,30 @@
 
     <div id="victoryMessage" class="victory-message hidden">
       <div class="victory-content">
-        <h2>🎉 Congratulations! 🎉</h2>
-        <p>You solved the puzzle!</p>
-        <p>Time: <span id="finalTime"></span></p>
-        <button id="newGameFromVictoryBtn" class="btn btn-primary">Play Again</button>
+        <h2 data-i18n="app.victory.title">🎉 Congratulations! 🎉</h2>
+        <p data-i18n="app.victory.message">You solved the puzzle!</p>
+        <p id="victoryTimeText"></p>
+        <button id="newGameFromVictoryBtn" class="btn btn-primary" data-i18n="app.victory.play_again">Play
+          Again</button>
       </div>
     </div>
 
     <div class="info-section">
-      <h3>How to Play</h3>
+      <h3 data-i18n="app.how_to_play.title">How to Play</h3>
       <ul>
-        <li>Fill the 9×9 grid so that each row, column, and 3×3 box contains digits 1-9</li>
-        <li>Click a cell and type a number (1-9) to fill it</li>
-        <li>Press Backspace or Delete to clear a cell</li>
-        <li>Invalid moves will be highlighted in red</li>
-        <li>Use hints to get solving tips based on human techniques</li>
+        <li data-i18n="app.how_to_play.rule1">Fill the 9×9 grid so that each row, column, and 3×3 box contains digits
+          1-9</li>
+        <li data-i18n="app.how_to_play.rule2">Click a cell and type a number (1-9) to fill it</li>
+        <li data-i18n="app.how_to_play.rule3">Press Backspace or Delete to clear a cell</li>
+        <li data-i18n="app.how_to_play.rule4">Invalid moves will be highlighted in red</li>
+        <li data-i18n="app.how_to_play.rule5">Use hints to get solving tips based on human techniques</li>
       </ul>
     </div>
   </div>
 
+  <script src="i18n.js"></script>
   <script src="sudoku.js"></script>
   <script src="app.js"></script>
 </body>
+
 </html>

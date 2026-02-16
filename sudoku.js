@@ -245,8 +245,9 @@ const Sudoku = {
               row,
               col,
               value: candidates[0],
-              technique: 'Naked Single',
-              explanation: `This cell can only be ${candidates[0]} because all other numbers are already used in its row, column, or box.`
+              techniqueKey: 'app.hints.naked_single',
+              explanationKey: 'app.hints.explanations.naked_single',
+              params: { value: candidates[0] }
             };
           }
         }
@@ -271,8 +272,9 @@ const Sudoku = {
             row,
             col: possibleCols[0],
             value: num,
-            technique: 'Hidden Single (Row)',
-            explanation: `${num} can only go in this cell in row ${row + 1}.`
+            techniqueKey: 'app.hints.hidden_single_row',
+            explanationKey: 'app.hints.explanations.hidden_single_row',
+            params: { value: num, row: row + 1 }
           };
         }
       }
@@ -292,8 +294,9 @@ const Sudoku = {
             row: possibleRows[0],
             col,
             value: num,
-            technique: 'Hidden Single (Column)',
-            explanation: `${num} can only go in this cell in column ${col + 1}.`
+            techniqueKey: 'app.hints.hidden_single_col',
+            explanationKey: 'app.hints.explanations.hidden_single_col',
+            params: { value: num, col: col + 1 }
           };
         }
       }
@@ -316,8 +319,9 @@ const Sudoku = {
               row: possibleCells[0].row,
               col: possibleCells[0].col,
               value: num,
-              technique: 'Hidden Single (Box)',
-              explanation: `${num} can only go in this cell in its 3x3 box.`
+              techniqueKey: 'app.hints.hidden_single_box',
+              explanationKey: 'app.hints.explanations.hidden_single_box',
+              params: { value: num }
             };
           }
         }
@@ -362,8 +366,9 @@ const Sudoku = {
         row: bestCell.row,
         col: bestCell.col,
         value: solution[bestCell.row][bestCell.col],
-        technique: 'Guided Hint',
-        explanation: `This cell should be ${solution[bestCell.row][bestCell.col]}. It has ${minCandidates} possible candidates.`
+        techniqueKey: 'app.hints.guided_hint',
+        explanationKey: 'app.hints.explanations.guided',
+        params: { value: solution[bestCell.row][bestCell.col], candidates: minCandidates }
       };
     }
 
